@@ -1,0 +1,57 @@
+﻿@page
+@*@model ToDoList.Pages.AddStudentModel*@
+@{
+    ViewData["Title"] = "AddStudent";
+}
+<style>
+    .error {
+        color: red;
+        font-size: 12px;
+    }
+</style>
+<div class=" container w-50">
+    <form action="/" method="post" id="studform">
+        <h1 class="text-center text-black-50">Add Student</h1>
+        <div class="form-group">
+            <input type="text" class="form-control" id="firstName" placeholder="First Name">
+
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+        </div>
+        <div class="form-group">
+            <input type="datetime" class="form-control" id="dateOfBirth" placeholder="Date Of Birth">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="gender" placeholder="Gender">
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>
+<script>
+
+    $(document).ready(function () {
+        $('#studform').submit(function (e) {
+            e.preventDefault();
+            var firstName = $('#firstName').val();
+            var lastName = $('#lastName').val();
+            var dateOfBirth = $('#dateOfBirth').val();
+            var gender = $('#gender').val();
+            $(".error").remove();
+            if (firstName.length < 1) {
+                $('#firstName').after('<span class="error">First Name is required</span>').css('border', '1px solid red');
+            }
+            if (lastName.length < 1) {
+                $('#lastName').after('<span class="error">Last Name is required</span>').css('border', '1px solid red');
+            }
+            if (dateOfBirth.length < 1) {
+                $('#dateOfBirth').after('<span class="error">Date of Birth is required</span>').css('border', '1px solid red');
+            }
+            if (gender.length < 1) {
+                $('#gender').after('<span class="error">Gender is required</span>').css('border', '1px solid red');
+            }
+        })
+
+    })
+</script>
+

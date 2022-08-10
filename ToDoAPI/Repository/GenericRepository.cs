@@ -18,9 +18,9 @@ namespace ToDoAPI.Repository
             _cxt = context;
         }
 
-        public void AddSudent(T entity)
+        public void Add(T entity)
         {
-
+            _cxt.Add(entity);
         }
 
         public void Delete(int id)
