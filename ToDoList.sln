@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32428.217
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoList", "ToDoList\ToDoList.csproj", "{5CD45383-D9E7-4273-A33B-E08ED4C72DEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList", "ToDoList\ToDoList.csproj", "{5CD45383-D9E7-4273-A33B-E08ED4C72DEC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoAPI", "ToDoAPI\ToDoAPI.csproj", "{A86A42BD-51CE-409C-A759-1A9DDC351604}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoAPI", "ToDoAPI\ToDoAPI.csproj", "{A86A42BD-51CE-409C-A759-1A9DDC351604}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

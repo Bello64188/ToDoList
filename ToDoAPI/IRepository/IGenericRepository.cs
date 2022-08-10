@@ -10,7 +10,7 @@ namespace ToDoAPI.IRepository
     {
         Task<IEnumerable<Student>> GetStudents();
         Task<Student> GetStudent(int id);
-        void Add(T entity);
+        void AddSudent(T entity);
         void Delete(int id);
         void Update(T entity);
         Task<bool> SaveAll();
