@@ -1,0 +1,68 @@
+﻿@page
+@model ToDoList.Pages.ToDoListModel
+@{
+    ViewData["Title"] = "StudentsList";
+}
+
+<div class="container">
+    <h1 class="text-center text-black-50">Students List</h1>
+    <table class="table table-bordered table-striped" id="dataTable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th id="firstName">First Name</th>
+                <th id="lastName">Last Name</th>
+                <th id=" dateOfBirth">Date of Birth</th>
+                <th id="gender">Gender</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+
+    </table>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        getStudent();
+    });
+    function getStudent() {
+        let xhr = new XMLHttpRequest();
+        let url = "https://localhost:7001/api/Students";
+        xhr.open('GET', url, false);
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        try {
+            xhr.send();
+            if (xhr.status != 200) {
+                console.log(xhr)
+                //alert('Somthing went wrong please check your network. ');
+            }
+            else {
+                var result = JSON.parse(xhr.responseText);
+                console.log(result);
+                StudentTemp(result);
+            }
+
+        }
+        catch (err) { // instead of onerror
+            alert(err, "Request failed");
+        }
+    }
+
+    function StudentTemp(dataObj) {
+        $('#dataTable tbody').html("");
+        dataObj.forEach(x => {
+            let res = `<tr>
+                <td>${x.id}</td>
+                <td>${x.firstName}</td>
+                <td>${x.lastName}</td>
+                <td>${x.dateOfBirth}</td>
+                <td>${x.gender}</td>
+            </tr>`;
+            $('#dataTable tbody').append(res);
+        });
+    }
+</script>
