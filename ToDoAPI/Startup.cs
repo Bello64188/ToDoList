@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToDoAPI.Configuration.Mapping;
 using ToDoAPI.Data;
 using ToDoAPI.IRepository;
 using ToDoAPI.Repository;
@@ -37,7 +39,9 @@ namespace ToDoAPI
         {
             services.AddSingleton<AppDbContext>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.CorsConfig();
+            services.AddAutoMapper(typeof(MapperInitializer));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
