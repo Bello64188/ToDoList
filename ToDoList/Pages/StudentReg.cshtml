@@ -20,16 +20,20 @@
             <input type="text" class="form-control" id="lastName" placeholder="Last Name">
         </div>
         <div class="form-group">
-            <input type="datetime" class="form-control" id="dateOfBirth" placeholder="Date Of Birth">
+            <input type="datetime" class="form-control" id="dateOfBirth" placeholder="yyyy-mm-dd">
         </div>
         <div class="form-group">
             <input type="text" class="form-control" id="gender" placeholder="Gender">
         </div>
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary btnsubmit" onclick="submitStudent()">Add</button>
     </form>
 </div>
 <script>
     $(document).ready(function () {
+        validation();
+
+    })
+    function validation() {
         $('#studform').submit(function (e) {
             e.preventDefault();
             var firstName = $('#firstName').val();
@@ -50,5 +54,33 @@
                 $('#gender').after('<span class="error">Gender is required</span>').css('border', '1px solid red');
             }
         })
-    })
+
+
+    }
+    function submitStudent() {
+
+        var data = {
+            firstName: $('#firstName').val(),
+            lastName: $('#lastName').val(),
+            dateOfBirth: $('#dateOfBirth').val().toString(),
+            gender: $('#gender').val()
+        };
+        console.log(data);
+        $.ajax({
+            type: 'POST',
+            url: 'https://localhost:7001/api/Students',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            success: function (result) {
+                alert('Register Successfully');
+                console.log(result);
+            },
+            error: function () {
+                alert('Failed to receive the Data');
+                console.log('Failed ');
+            }
+        })
+
+    }
+
 </script>
