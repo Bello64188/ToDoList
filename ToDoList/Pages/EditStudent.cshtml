@@ -1,0 +1,32 @@
+﻿@page
+@model ToDoList.Pages.EditStudentModel
+@{
+    ViewData["Title"] = "Edit-Student";
+}
+
+
+<div class=" container w-50">
+    <form action="/" method="post" id="editform">
+        <h1 class="text-center text-black-50">Edit Student</h1>
+        <div class="form-group">
+            <input type="text" class="form-control" id="firstName" placeholder="First Name">
+
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+        </div>
+        <div class="form-group">
+            <input type="datetime" class="form-control" id="dateOfBirth" placeholder="yyyy-mm-dd">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="gender" placeholder="Gender">
+        </div>
+        <button type="submit" class="btn btn-primary btnsubmit" onclick="UpdateStudent(); return false;">Update</button>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        getStudent();
+    });
+
+</script>

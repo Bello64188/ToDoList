@@ -23,6 +23,7 @@
 
 </div>
 
+
 <script>
     $(document).ready(function () {
         getStudent();
@@ -41,6 +42,31 @@
             }
             else {
                 var result = JSON.parse(xhr.responseText);
+                console.log(result);
+                StudentTemp(result);
+            }
+
+        }
+        catch (err) { // instead of onerror
+            alert(err, "Request failed");
+        }
+    }
+
+    function getStudent(id) {
+        let xhr = new XMLHttpRequest();
+        let url = "https://localhost:7001/api/Students" + id;
+        xhr.open('GET', url, false);
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        try {
+            xhr.send();
+            if (xhr.status != 200) {
+                console.log(xhr)
+                //alert('Somthing went wrong please check your network. ');
+            }
+            else {
+                var result = JSON.parse(xhr.responseText);
+
                 console.log(result);
                 StudentTemp(result);
             }
@@ -82,7 +108,7 @@
                 <td>${x.gender}</td>
                 <td>
                 <a href="javascript:void(0)"
-                onclick="singleStudent(${x.id})"
+                onclick="getStudent(${x.id})"
                 class="btn btn-warning btn-sm" title="Edit">Edit</a>&nbsp;
                 <a href="javascript:void(0)"
                 class="btn btn-danger btn-sm" onclick="deleteStudent(${x.id})"  title="Delete">Delete</a>
@@ -90,5 +116,6 @@
             </tr>`;
             $('#dataTable tbody').append(res);
         });
+
     }
 </script>
