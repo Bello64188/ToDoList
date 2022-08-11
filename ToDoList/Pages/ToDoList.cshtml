@@ -14,8 +14,7 @@
                 <th id="lastName">Last Name</th>
                 <th id=" dateOfBirth">Date of Birth</th>
                 <th id="gender">Gender</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th>Changes</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -51,6 +50,26 @@
             alert(err, "Request failed");
         }
     }
+    function deleteStudent(id) {
+        var check = confirm("About to delete student, Are you sure?")
+        if (check == true) {
+            $.ajax({
+                type: "DELETE",
+                url: "https://localhost:7001/api/Students/" + id,
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    alert('Delete successfully.');
+                    console.log(result);
+                    getStudent();
+                },
+                error: function () {
+                    alert('Failed to delete student');
+                    console.log('Failed ');
+                }
+            })
+
+        }
+    }
 
     function StudentTemp(dataObj) {
         $('#dataTable tbody').html("");
@@ -61,6 +80,13 @@
                 <td>${x.lastName}</td>
                 <td>${x.dateOfBirth}</td>
                 <td>${x.gender}</td>
+                <td>
+                <a href="javascript:void(0)"
+                onclick="singleStudent(${x.id})"
+                class="btn btn-warning btn-sm" title="Edit">Edit</a>&nbsp;
+                <a href="javascript:void(0)"
+                class="btn btn-danger btn-sm" onclick="deleteStudent(${x.id})"  title="Delete">Delete</a>
+                </td>
             </tr>`;
             $('#dataTable tbody').append(res);
         });
