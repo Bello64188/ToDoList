@@ -23,10 +23,45 @@
 
 </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/" method="post" id="editform">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="id" placeholder="Id" disabled="disabled" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="firstname" placeholder="First Name" required>
+
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="lastname" placeholder="Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="datetime" class="form-control" id="dateofBirth" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="ggender" placeholder="Gender" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     $(document).ready(function () {
         getStudent();
+
     });
     function getStudent() {
         let xhr = new XMLHttpRequest();
@@ -52,29 +87,27 @@
         }
     }
 
-    function getStudent(id) {
-        let xhr = new XMLHttpRequest();
-        let url = "https://localhost:7001/api/Students" + id;
-        xhr.open('GET', url, false);
-        xhr.setRequestHeader("content-type", "application/json");
-        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-        try {
-            xhr.send();
-            if (xhr.status != 200) {
-                console.log(xhr)
-                //alert('Somthing went wrong please check your network. ');
-            }
-            else {
-                var result = JSON.parse(xhr.responseText);
+    function getStudentId(id) {
+        $.ajax({
+            type: "GET",
+            url: "https://localhost:7001/api/Students/" + id,
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                EditTemp(result.id);
+                $('#id').val(result.id);
+                $('#firstname').val(result.firstName);
+                $('#lastname').val(result.lastName);
+                $('#dateofBirth').val(result.dateOfBirth);
+                $('#ggender').val(result.gender);
+                $('#myModal').modal('show');
 
-                console.log(result);
-                StudentTemp(result);
+            },
+            error: function (error) {
+                alert(error.responseText);
+                console.log('Failed ');
             }
-
-        }
-        catch (err) { // instead of onerror
-            alert(err, "Request failed");
-        }
+        })
+        return false;
     }
     function deleteStudent(id) {
         var check = confirm("About to delete student, Are you sure?")
@@ -108,7 +141,7 @@
                 <td>${x.gender}</td>
                 <td>
                 <a href="javascript:void(0)"
-                onclick="getStudent(${x.id})"
+                onclick=" return getStudentId(${x.id})"
                 class="btn btn-warning btn-sm" title="Edit">Edit</a>&nbsp;
                 <a href="javascript:void(0)"
                 class="btn btn-danger btn-sm" onclick="deleteStudent(${x.id})"  title="Delete">Delete</a>
@@ -116,6 +149,44 @@
             </tr>`;
             $('#dataTable tbody').append(res);
         });
-
     }
+
+    function Update(id) {
+        var std = {
+            id: $('#id').val(),
+            firstName: $('#firstname').val(),
+            lastName: $('#lastname').val(),
+            dateOfBirth: $('#dateofBirth').val(),
+            gender: $('#ggender').val()
+        };
+        $.ajax({
+            url: "https://localhost:7001/api/Students/" + id,
+            data: JSON.stringify(std),
+            type: "PUT",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                getStudent();
+                $('#myModal').modal('hide');
+                $('#id').val(""),
+                    $('#firstname').val(""),
+                    $('#lastname').val(""),
+                    $('#dateofBirth').val(""),
+                    $('#ggender').val("");
+
+                alert('Update successfully.');
+            },
+            error: function (error) {
+                alert(error.responseText);
+            }
+
+        });
+    }
+
+    function EditTemp(id) {
+        $('.modal-footer button').append('<button type="button"  class="btn btn-primary" onclick="Update(${' + id + '})">Update</button>')
+    }
+
+
+
 </script>
