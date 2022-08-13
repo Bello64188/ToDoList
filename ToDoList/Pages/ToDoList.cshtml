@@ -4,6 +4,13 @@
     ViewData["Title"] = "StudentsList";
 }
 
+<style>
+    .error {
+        color: red;
+        font-size: 12px;
+    }
+</style>
+
 <div class="container">
     <h1 class="text-center text-black-50">Students List</h1>
     <table class="table table-bordered table-striped" id="dataTable">
@@ -52,7 +59,7 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+            <div class="modal-footer"></div>
         </div>
     </div>
 </div>
@@ -152,6 +159,9 @@
     }
 
     function Update(id) {
+        var validat = validate();
+        if (validat == false)
+            return false;
         var std = {
             id: $('#id').val(),
             firstName: $('#firstname').val(),
@@ -184,9 +194,37 @@
     }
 
     function EditTemp(id) {
-        $('.modal-footer button').append('<button type="button"  class="btn btn-primary" onclick="Update(${' + id + '})">Update</button>')
+        $('.modal-footer').empty();
+        $('.modal-footer').wrapInner(`<button type="button" name="update" class="btn btn-primary" onclick="Update(${id})">Update</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`);
     }
 
-
+    function validate() {
+        var isValid = true;
+        if ($('#firstname').val().trim() == "") {
+            $('#firstname').after('<span class="error">First Name is required</span>').css('border', '1px solid red');
+            isValid = false;
+        } else {
+            $('#firstname').css('border-color', '1px solid lightgray');
+        }
+        if ($('#lastname').val().trim() == "") {
+            $('#lastname').after('<span class="error">Last Name is required</span>').css('border', '1px solid red');
+            isValid = false;
+        } else {
+            $('#lastname').css('border-color', '1px solid lightgray');
+        }
+        if ($('#dateofBirth').val().trim() == "") {
+            $('#dateofBirth').after('<span class="error">DOB is required</span>').css('border', '1px solid red');
+            isValid = false;
+        } else
+            $('#dateofBirth').css('border-color', '1px solid lightgray');
+        if ($('#ggender').val().trim() == "") {
+            $('#ggender').after('<span class="error">Gender is required</span>').css('border', '1px solid red');
+            isValid = false
+        } else {
+            $('#ggender').css('border-color', '1px solid lightgray');
+        }
+        return isValid;
+    }
 
 </script>
